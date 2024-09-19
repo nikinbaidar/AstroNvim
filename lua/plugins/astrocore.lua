@@ -1,9 +1,8 @@
-if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
-
 -- AstroCore provides a central place to modify mappings, vim options, autocommands, and more!
 -- Configuration documentation can be found with `:h astrocore`
 -- NOTE: We highly recommend setting up the Lua Language Server (`:LspInstall lua_ls`)
 --       as this provides autocomplete and documentation while editing
+
 
 ---@type LazySpec
 return {
@@ -13,11 +12,11 @@ return {
     -- Configure core features of AstroNvim
     features = {
       large_buf = { size = 1024 * 256, lines = 10000 }, -- set global limits for large files for disabling features like treesitter
-      autopairs = true, -- enable autopairs at start
-      cmp = true, -- enable completion at start
-      diagnostics_mode = 3, -- diagnostic mode on start (0 = off, 1 = no signs/virtual text, 2 = no virtual text, 3 = on)
-      highlighturl = true, -- highlight URLs at start
-      notifications = true, -- enable notifications at start
+      autopairs = true,
+      cmp = true,
+      diagnostics_mode = 3,
+      highlighturl = true,
+      notifications = false,
     },
     -- Diagnostics configuration (for vim.diagnostics.config({...})) when diagnostics are on
     diagnostics = {
@@ -26,12 +25,13 @@ return {
     },
     -- vim options can be configured here
     options = {
-      opt = { -- vim.opt.<key>
-        relativenumber = true, -- sets vim.opt.relativenumber
-        number = true, -- sets vim.opt.number
-        spell = false, -- sets vim.opt.spell
+      opt = {
+        relativenumber = true,
+        number = true,
+        spell = false,
         signcolumn = "yes", -- sets vim.opt.signcolumn to yes
-        wrap = false, -- sets vim.opt.wrap
+        wrap = true,
+        autochdir = true,
       },
       g = { -- vim.g.<key>
         -- configure global vim variables (vim.g)
@@ -39,18 +39,37 @@ return {
         -- This can be found in the `lua/lazy_setup.lua` file
       },
     },
-    -- Mappings can be configured through AstroCore as well.
-    -- NOTE: keycodes follow the casing in the vimdocs. For example, `<Leader>` must be capitalized
+    autocmds = {
+      terminal = { -- This is the au group
+        {
+          event = "TermOpen",
+          desc = "Start terminal in insert mode",
+          pattern = { "term://*" },
+          callback = function() vim.cmd('startinsert') end,
+        },
+      },
+    },
+    commands = {
+      MakeTitleCase = {
+        function()
+          vim.api.nvim_command("normal! i\")
+          vim.api.nvim_command("s#\\v(\\w)(\\S*)#\\u\\1\\L\\2#g")
+          vim.api.nvim_command("normal! kJ")
+        end,
+        desc = "Make the current line title case"
+      },
+      StripTrailingSpaces = {
+        function()
+          vim.api.nvim_command("%s/\\s\\+$//g")
+        end,
+        desc = "Make the current line title case"
+      },
+    },
     mappings = {
-      -- first key is the mode
       n = {
-        -- second key is the lefthand side of the map
-
-        -- navigate buffer tabs
         ["]b"] = { function() require("astrocore.buffer").nav(vim.v.count1) end, desc = "Next buffer" },
         ["[b"] = { function() require("astrocore.buffer").nav(-vim.v.count1) end, desc = "Previous buffer" },
 
-        -- mappings seen under group name "Buffer"
         ["<Leader>bd"] = {
           function()
             require("astroui.status.heirline").buffer_picker(
@@ -60,13 +79,47 @@ return {
           desc = "Close buffer from tabline",
         },
 
+        ["<Leader>fp"] = { function()
+          require("telescope.builtin").find_files({
+            cwd = vim.fn.expand("~/projects"),
+            find_command = { "fd", "--type", "d"},
+            file_ignore_patterns = {"**/node_modules/", "**/build/"}
+          })
+        end,
+          desc = "Find projects",
+        },
+
         -- tables with just a `desc` key will be registered with which-key if it's installed
-        -- this is useful for naming menus
+        -- this is useful for naming menu
         -- ["<Leader>b"] = { desc = "Buffers" },
 
         -- setting a mapping to false will disable it
         -- ["<C-S>"] = false,
       },
+      i = {
+
+        ["<C-h>"] = { function() 
+          if require("luasnip").jumpable(-1) then
+            require("luasnip").jump(-1)
+          end
+        end,
+          desc = "Jump node backwards." 
+        },
+        ["<C-l>"] = { function() 
+          if require("luasnip").jumpable(1) then
+            require("luasnip").jump(1)
+          end
+        end,
+          desc = "Jump node forwards." 
+        },
+        ["<C-v>"] = { function() 
+          if require("luasnip").choice_active() then
+            require("luasnip").change_choice(1) 
+          end
+        end, desc = "Change snippet choice." },
+      },
     },
   },
 }
+
+
