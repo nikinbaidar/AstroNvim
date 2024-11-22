@@ -1,52 +1,67 @@
--- You can also add or configure plugins by creating files in this `plugins/` folder
+-- NOTE: You can also add or configure plugins by creating files in this `plugins/` folder
 -- Here are some examples:
+
+function Projects()
+  require("telescope.builtin").find_files({
+    cwd = vim.fn.expand("~/projects"),
+    find_command = { "fd", "--type", "d"},
+    file_ignore_patterns = {
+      "**/node_modules/",
+      "**/build/"
+    }
+  })
+end
+
+function FindAll()
+  require("telescope.builtin").find_files({
+    cwd = vim.fn.expand("~"),
+    find_command = { "fd" },
+    file_ignore_patterns = {
+      "**/node_modules/",
+      "**/build/"
+    }
+  })
+end
 
 ---@type LazySpec
 return {
 
   -- == Examples of Adding Plugins ==
 
-  "andweeb/presence.nvim",
-  {
-    "ray-x/lsp_signature.nvim",
-    event = "BufRead",
-    config = function() require("lsp_signature").setup() end,
-  },
-
-  -- == Examples of Overriding Plugins ==
-
-  -- customize alpha options
-  {
-    "goolord/alpha-nvim",
-    opts = function(_, opts)
-      -- customize the dashboard header
-      opts.section.header.val = {
-        "   ░░███   ░░███ ░░███ ░░██████ ██████",
-        "    ░███    ░███  ░███  ░███░█████░███",
-        "    ░███    ░███  ░███  ░███░░███ ░███",
-        "    ░░███   ███   ░███  ░███ ░░░  ░███",
-        "     ░░░█████░    ░███  ░███      ░███",
-        "       ░░███      █████ █████     █████",
-        "        ░░░      ░░░░░ ░░░░░     ░░░░░",
-      }
-      return opts
-    end,
-  },
-
-  -- You can disable default plugins as follows:
-  { "max397574/better-escape.nvim", enabled = false },
-  { "rafamadriz/friendly-snippets", enabled = false },
   { "tpope/vim-surround"},
   { "tpope/vim-repeat"},
+  { 'kristijanhusak/vim-dadbod-ui',
+    dependencies = { "nikinbaidar/vim-dadbod" }},
+  -- == Examples of Overriding Plugins ==
+
+  
+  -- You can disable default plugins as follows:
+  { "max397574/better-escape.nvim", enabled=false },
+  { "rafamadriz/friendly-snippets", enabled=false },
+  { "andweeb/presence.nvim", enabled=false},
+  { "goolord/alpha-nvim", enabled=false},
+
 
   -- You can also easily customize additional setup of plugins that is outside of the plugin's setup call
   {
     "L3MON4D3/LuaSnip",
+    build = "make install_jsregexp",
     config = function(plugin, opts)
       require "astronvim.plugins.configs.luasnip"(plugin, opts) -- include the default astronvim config that calls the setup call
       -- add more custom luasnip configuration such as filetype extend or custom snippets
       local luasnip = require "luasnip"
-      luasnip.filetype_extend("javascript", { "javascriptreact" })
+      local extensions = {
+        javascript = { "html", "react" },
+        plaintex = { "tex" },
+      }
+
+      for ft, ext in pairs(extensions) do
+        luasnip.filetype_extend(ft, ext)
+      end
+
+      luasnip.config.setup({
+        enable_autosnippets = true
+      })
     end,
   },
 
