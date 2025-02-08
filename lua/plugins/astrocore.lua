@@ -102,9 +102,7 @@ return {
       },
       KeepTwoTrailingSpaces = {
         function()
-          -- vim.api.nvim_command("%s/\\s\\+$/  /g")
-          -- :%s/^\s\+.*\s\+$//e | %s/\s\+$/  /g
-          vim.api.nvim_command("%s/^\\s\\+.*\\s\\+$//e | %s/\\s\\+$/  /g")
+          vim.api.nvim_command("%s/\\s\\+$/  /g")
         end,
         desc = "Remove trailing spaces in the entire buffer."
       },

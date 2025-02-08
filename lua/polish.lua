@@ -34,6 +34,6 @@ command! -nargs=* -range -register CopyMatches call CopyMatches(<q-reg>, <line1>
 set spell
 
 hi! link SpellCap Normal 
-set listchars=trail:·
+set listchars=trail:␣
 ]]
 
