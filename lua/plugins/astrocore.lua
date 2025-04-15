@@ -75,11 +75,20 @@ return {
             vim.api.nvim_buf_set_keymap(0, "n", "<leader>r", ":! bash %<CR>", { noremap=true, silent = true, desc= 'Run Shell' })
           end,
           desc = "Run code",
-        }, {
+        }, 
+        {
           event = "FileType",
           pattern =  "c",
           callback = function()
             vim.api.nvim_buf_set_keymap(0, "n", "<leader>r", ":update | ! gcc -o /tmp/a.out -lm % && /tmp/a.out<CR>", { noremap=true, silent = true, desc= 'Run C' })
+          end,
+          desc = "Run code",
+        },
+        {
+          event = "FileType",
+          pattern =  "cpp",
+          callback = function()
+            vim.api.nvim_buf_set_keymap(0, "n", "<leader>r", ":update | ! g++ -O2 % -o /tmp/a.out && /tmp/a.out<CR>", { noremap=true, silent = true, desc= 'Run C' })
           end,
           desc = "Run code",
         },
@@ -141,15 +150,6 @@ return {
           desc = "Close buffer from tabline",
         },
 
-        ["<Leader>fp"] = { function()
-          require("telescope.builtin").find_files({
-            cwd = vim.fn.expand("~/projects"),
-            find_command = { "fd", "--type", "d"},
-            file_ignore_patterns = {"**/node_modules/", "**/build/"}
-          })
-        end,
-          desc = "Find projects",
-        },
 
         ["<Leader>ff"] = { function()
           require("telescope.builtin").find_files({
