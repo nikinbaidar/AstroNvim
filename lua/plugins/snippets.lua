@@ -272,7 +272,7 @@ ls.add_snippets("tex", {
   ),
 
 
-  s("dcl", fmta([[\documentclass[<>]{<>}]], {
+  s("dcl", fmta([[\documentclass[12pt<>]{<>}]], {
     i(2), i(1)
   })),
 
