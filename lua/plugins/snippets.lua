@@ -21,7 +21,11 @@ local parse = require("luasnip.util.parser").parse_snippet
 
 local lorem = [[ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. ]]
 
+ls.filetype_extend("tex", { "quarto" })
+
 -- HACK: RECURRING FUNCTIONS. MAYBE IMPLEMENT `rep` later.
+--
+
 
 local rec_etymology
 
@@ -162,6 +166,7 @@ ls.add_snippets("html", {
       f(function(_, snip) return snip.captures[1] end),
     })),
 })
+
 
 ls.add_snippets("tex", {
   parse("ohm", "$\\Omega$"),
@@ -353,5 +358,20 @@ ls.add_snippets("python", {
               break
 	]],  {})),
 
+
+})
+
+ls.add_snippets("quarto", {
+
+	s( { trig = "exec(%a+)", regTrig = true, desc = "Multiline code block" },
+	  fmta([[
+    ```{<>}
+    <>
+    ```
+    <>
+	  ]],
+	  { f(function(_, snip) return snip.captures[1] end), i(1, "file"), i(2) })),
+
+	parse("hi", "hihihi")
 
 })
