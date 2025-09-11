@@ -28,6 +28,7 @@ draw
 LayoutLMv3
 Baidar
 Nikin
+<<<<<<< HEAD
 filesystem
 S100064069
 S200560
@@ -50,3 +51,19 @@ Multiclass
 selectra
 MobileServer
 MobileViewer
+=======
+benchtop
+Selectra
+VitalScientific
+orangered
+ELITechGroup
+IVDR
+ProS
+ProM
+withing/!
+Thermostatized
+thermostatized
+Pokhara
+Westgrad
+Levey
+>>>>>>> refs/remotes/origin/main
