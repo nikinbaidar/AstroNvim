@@ -21,11 +21,7 @@ local parse = require("luasnip.util.parser").parse_snippet
 
 local lorem = [[ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. ]]
 
-ls.filetype_extend("tex", { "quarto" })
-
 -- HACK: RECURRING FUNCTIONS. MAYBE IMPLEMENT `rep` later.
---
-
 
 local rec_etymology
 
@@ -107,17 +103,16 @@ ls.add_snippets("all", {
 
 
 s("mindrayserviceorder", {
-  i(2, "Instrument type"),
+  t("Instrument type: "), i(2),
   m(2, function(args)
     return (args[1][1] == "A" and "nesthesia machine"
-      or args[1][1] == "E" and "CG machine"
+      or args[1][1] == "I" and "nfusion pump"
       or args[1][1] == "P" and "atient monitor"
       or args[1][1] == "S" and "yringe pump"
-      or args[1][1] == "I" and "nfusion pump"
       or args[1][1] == "V" and "entilator"
     )
   end),
-  t({"", ""}),
+  t({"", "Model: "}),
   d(3, function(args)
     local key = args[1][1]
       local models = {
@@ -125,11 +120,10 @@ s("mindrayserviceorder", {
           t("WATO EX-35"),
           t("WATO EX-20"),
           t("A5"),
-          t("A7"),
+          t("A5"),
           t("A3"),
+          t("A7"),
           t("A8"),
-          t("A55"),
-          t("A65"),
         },
         I = { 
           t("uVP"),
@@ -144,7 +138,6 @@ s("mindrayserviceorder", {
           t("eSP"),
           t("uSP"),
           t("SP3"),
-          t("SP5"),
         },
         V = { 
           t("SV300"),
@@ -152,16 +145,16 @@ s("mindrayserviceorder", {
           t("SynoVent E5"),
         },
       }
-      local choices = models[key] or { t("Model") }
+      local choices = models[key] or { t("Unknown model") }
       return sn(nil, { c(1, choices) })
     end, {2}),
-    t({"", "SN "}), i(4),
-    t({"", "Location: Nepal"}),
+    t({"", "SN: "}), i(4),
+    t({"", "Machine Located Country: Nepal"}),
     t({"", "Distributor ID: S200560"}),
     t({"", "Customer/Institution name: "}), i(1),
     t({"", "Contact Person: Nikin Baidar (Service engineer @ GMS)"}),
-    t({"", "Contact Number: 9869050807"}),
-    t({"", "Problem Description: ", ""}), i(5),
+    t({"", "Contact Number: 9869050807", ""}),
+    t({"", "Problem Description: ", "", ""}), i(5),
   }),
 
 	s("mat", {
@@ -242,7 +235,6 @@ ls.add_snippets("html", {
       f(function(_, snip) return snip.captures[1] end),
     })),
 })
-
 
 ls.add_snippets("tex", {
   parse("ohm", "$\\Omega$"),
@@ -433,29 +425,6 @@ ls.add_snippets("python", {
               cv2.destroyAllWindows()
               break
 	]],  {})),
-
-
-})
-
-ls.add_snippets("quarto", {
-
-	s( { trig = "cb(%a+)", regTrig = true, desc = "Language specific multiline code blocks" },
-	  fmta([[
-    ```{<>}
-    <>
-    ```
-    <>
-	  ]],
-	  { f(function(_, snip) return snip.captures[1] end), i(1), i(2) })),
-
-	s( { trig = "cb", regTrig = false, desc = "Multiline code block" },
-	  fmta([[
-    ```
-    <>
-    ```
-    <>
-	  ]],
-	    { i(1), i(2) })),
 
 
 })

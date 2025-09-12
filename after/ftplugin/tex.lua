@@ -3,11 +3,15 @@
 -- ░░█░░█▀▀░▄▀▄░░░░█░░░█░█░█▀█
 -- ░░▀░░▀▀▀░▀░▀░▀░░▀▀▀░▀▀▀░▀░▀
 
+local function is_tty()
+    return vim.fn.exists('$TERM_PROGRAM') == 0
+end
+
 vim.api.nvim_set_keymap('i', '<C-z>', '<C-[>[s1z=`]a', {noremap = true})
 
 vim.b.spell = true
 
-vim.keymap.set('n', '<leader>v',
+vim.keymap.set('n', '<leader>v',  
 function()
     local filepath = vim.fn.expand('%:r') .. ".pdf"
     vim.api.nvim_command("silent ! sioyek " .. filepath)
@@ -20,7 +24,7 @@ vim.api.nvim_create_user_command(
 function()
     local filepath = vim.fn.expand('%:r') .. ".pdf"
     vim.api.nvim_command("silent ! tmux split-pane -h 'pdf2txt " .. filepath .. "'")
-end,
+end, 
 {bang = true, desc = "Add bibliography to tex docs"}
 )
 
@@ -30,7 +34,7 @@ vim.api.nvim_create_user_command(
 function()
     vim.api.nvim_command("! clear ; biber %:r")
     vim.api.nvim_command("silent call RunLatex()")
-end,
+end, 
 {bang = true, desc = "Add bibliography to tex docs"}
 )
 
@@ -87,7 +91,7 @@ elseif (g:headmost[0] =~ "%")
                 endfunction
 
                 function! RunLatex()
-                    silent! execute '%s/\v(^|\s|\\\w*)(|[{[(])"/\1\2``/g'
+                    silent! execute '%s/\v(^|\s)(|[{[(]|)"/\1\2``/g'
                     silent! execute '%s/\v(^|\s)(|[{[(]})''/\1\2`/g'
                     update!
                     if expand('%:e') =~ "dn"
