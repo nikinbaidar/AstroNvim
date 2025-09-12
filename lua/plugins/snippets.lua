@@ -363,15 +363,23 @@ ls.add_snippets("python", {
 
 ls.add_snippets("quarto", {
 
-	s( { trig = "exec(%a+)", regTrig = true, desc = "Multiline code block" },
+	s( { trig = "cb(%a+)", regTrig = true, desc = "Language specific multiline code blocks" },
 	  fmta([[
     ```{<>}
     <>
     ```
     <>
 	  ]],
-	  { f(function(_, snip) return snip.captures[1] end), i(1, "file"), i(2) })),
+	  { f(function(_, snip) return snip.captures[1] end), i(1), i(2) })),
 
-	parse("hi", "hihihi")
+	s( { trig = "cb", regTrig = false, desc = "Multiline code block" },
+	  fmta([[
+    ```
+    <>
+    ```
+    <>
+	  ]],
+	    { i(1), i(2) })),
+
 
 })

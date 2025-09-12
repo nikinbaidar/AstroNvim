@@ -53,6 +53,7 @@ return {
       local extensions = {
         javascript = { "html", "react" },
         plaintex = { "tex" },
+        markdown = { "tex", "quarto" },
       }
 
       for ft, ext in pairs(extensions) do
