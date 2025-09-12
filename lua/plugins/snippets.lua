@@ -437,7 +437,7 @@ ls.add_snippets("python", {
 
 })
 
-ls.add_snippets("quarto", {
+ls.add_snippets("quarto",  {
 
 	s( { trig = "cb(%a+)", regTrig = true, desc = "Language specific multiline code blocks" },
 	  fmta([[
