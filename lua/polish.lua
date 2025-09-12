@@ -19,19 +19,6 @@
 vim.cmd('autocmd BufWritePost astrocore.lua so | AstroReload')
 vim.api.nvim_set_keymap('i', '<C-z>', '<C-[>[s1z=`]a', {noremap = true})
 
-vim.api.nvim_create_augroup("neotree_autoopen", { clear = true })
-vim.api.nvim_create_autocmd("BufRead", {
-  desc = "Open neo-tree on enter",
-  group = "neotree_autoopen",
-  once = true,
-  callback = function()
-    if not vim.g.neotree_opened then
-      vim.cmd "Neotree show"
-      vim.g.neotree_opened = true
-    end
-  end,
-})
-
 vim.cmd [[
 
 function! CopyMatches(reg, start, end) range
