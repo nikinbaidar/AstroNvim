@@ -121,7 +121,7 @@ s("mindrayserviceorder", {
   d(3, function(args)
     local key = args[1][1]
       local models = {
-        A = { 
+        A = {
           t("WATO EX-35"),
           t("WATO EX-20"),
           t("A5"),
@@ -131,7 +131,7 @@ s("mindrayserviceorder", {
           t("A55"),
           t("A65"),
         },
-        I = { 
+        I = {
           t("uVP"),
           t("eVP"),
           t("VP3"),
@@ -146,7 +146,7 @@ s("mindrayserviceorder", {
           t("SP3"),
           t("SP5"),
         },
-        V = { 
+        V = {
           t("SV300"),
           t("SV600"),
           t("SynoVent E5"),
