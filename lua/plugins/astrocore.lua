@@ -116,6 +116,15 @@ return {
         end,
         desc = "Remove trailing spaces in the entire buffer."
       },
+      FixQuotes = {
+        function()
+          vim.api.nvim_command('normal! mz')
+          pcall(vim.cmd, [[%s/[“”]/"/g]])
+          pcall(vim.cmd, [[%s/[‘’]/'/g]])
+          vim.api.nvim_command('normal! `z')
+        end,
+        desc = "Remove trailing spaces in the entire buffer."
+      },
       FixMultipleSpaces = {
         function(opts)
           local start_line = opts.line1
@@ -123,7 +132,7 @@ return {
           vim.cmd(string.format('%d,%ds/\\(\\S\\)\\s\\+/\\1 /g', start_line, end_line))
         end,
         range = true,
-        desc = "Replace multiple consecutive spaces with a single space."
+        desc = "Replace multiple consecutive whitespace characters with a single space."
       },
     },
     mappings = {

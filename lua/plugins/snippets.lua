@@ -158,10 +158,10 @@ s("mindrayserviceorder", {
     t({"", "SN "}), i(4),
     t({"", "Location: Nepal"}),
     t({"", "Distributor ID: S200560"}),
-    t({"", "Customer/Institution name: "}), i(1),
+    t({"", "Requests needing our support", ""}), i(5),
+    t({"", "Hospital or Institution name: "}), i(1),
     t({"", "Contact Person: Nikin Baidar (Service engineer @ GMS)"}),
     t({"", "Contact Number: 9869050807"}),
-    t({"", "Problem Description: ", ""}), i(5),
   }),
 
 	s("mat", {
